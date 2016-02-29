@@ -213,7 +213,117 @@ a.reshape(row, column):
            [ 5  6  7  8  9]
            [ 0  1  2  3  4]]
 
-### Inside "Fatiamento no ndarray bidimensional":
+* Inside "Fatiamento no ndarray bidimensional":
+    * [Processamento de imagens usando fatiamento do Numpy](http://adessowiki.fee.unicamp.br/adesso-1/wiki/master/tutorial_1_imagens/view/)
+    * [iaprofiledemo - Extraction and plotting of a vertical profile of an image](http://adessowiki.fee.unicamp.br/adesso-1/wiki/ia636/iaprofiledemo/view/)
 
-* [Processamento de imagens usando fatiamento do Numpy](http://adessowiki.fee.unicamp.br/adesso-1/wiki/master/tutorial_1_imagens/view/)
-* [iaprofiledemo - Extraction and plotting of a vertical profile of an image](http://adessowiki.fee.unicamp.br/adesso-1/wiki/ia636/iaprofiledemo/view/)
+* Amplify image:
+
+        a.shape # we can verify the a's shape
+
+
+        import numpy as np
+
+        f = adreadgray('gear.tif')
+        adshow(f, 'original %s' % (f.shape,) )
+        H,W = f.shape                               # H, W receives a pair of results
+        g = np.zeros( (2*H,2*W), 'uint8')
+
+        # the sections receives 
+        g[ ::2, ::2] = f
+        g[1::2, ::2] = f
+        g[1::2,1::2] = f
+        g[ ::2,1::2] = f
+        adshow(g, 'ampliada por replicação %s' % (g.shape,) )
+
+
+```python
+
+    import numpy as np
+
+    a = np.arange(25)
+    a = a.reshape(5,5)
+
+    array([[ 0,  1,  2,  3,  4],
+           [ 5,  6,  7,  8,  9],
+           [10, 11, 12, 13, 14],
+           [15, 16, 17, 18, 19],
+           [20, 21, 22, 23, 24]])
+
+    H, W = a.shape
+    g = np.zeros((2*H,2*W), int)
+
+    g[ ::2, ::2] = a
+
+        array([[ 0,  0,  1,  0,  2,  0,  3,  0,  4,  0],
+               [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+               [ 5,  0,  6,  0,  7,  0,  8,  0,  9,  0],
+               [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+               [10,  0, 11,  0, 12,  0, 13,  0, 14,  0],
+               [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+               [15,  0, 16,  0, 17,  0, 18,  0, 19,  0],
+               [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+               [20,  0, 21,  0, 22,  0, 23,  0, 24,  0],
+               [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0]])
+
+    g[1::2, ::2] = a
+
+        array([[ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+               [ 0,  0,  1,  0,  2,  0,  3,  0,  4,  0],
+               [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+               [ 5,  0,  6,  0,  7,  0,  8,  0,  9,  0],
+               [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+               [10,  0, 11,  0, 12,  0, 13,  0, 14,  0],
+               [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+               [15,  0, 16,  0, 17,  0, 18,  0, 19,  0],
+               [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+               [20,  0, 21,  0, 22,  0, 23,  0, 24,  0]])
+
+
+        # so far...
+
+            array([[ 0,  0,  1,  0,  2,  0,  3,  0,  4,  0],
+                   [ 0,  0,  1,  0,  2,  0,  3,  0,  4,  0],
+                   [ 5,  0,  6,  0,  7,  0,  8,  0,  9,  0],
+                   [ 5,  0,  6,  0,  7,  0,  8,  0,  9,  0],
+                   [10,  0, 11,  0, 12,  0, 13,  0, 14,  0],
+                   [10,  0, 11,  0, 12,  0, 13,  0, 14,  0],
+                   [15,  0, 16,  0, 17,  0, 18,  0, 19,  0],
+                   [15,  0, 16,  0, 17,  0, 18,  0, 19,  0],
+                   [20,  0, 21,  0, 22,  0, 23,  0, 24,  0],
+                   [20,  0, 21,  0, 22,  0, 23,  0, 24,  0]])
+
+    g[1::2,1::2] = a
+
+        # so ...
+
+        array([[ 0,  0,  1,  0,  2,  0,  3,  0,  4,  0],
+               [ 0,  0,  1,  1,  2,  2,  3,  3,  4,  4],
+               [ 5,  0,  6,  0,  7,  0,  8,  0,  9,  0],
+               [ 5,  5,  6,  6,  7,  7,  8,  8,  9,  9],
+               [10,  0, 11,  0, 12,  0, 13,  0, 14,  0],
+               [10, 10, 11, 11, 12, 12, 13, 13, 14, 14],
+               [15,  0, 16,  0, 17,  0, 18,  0, 19,  0],
+               [15, 15, 16, 16, 17, 17, 18, 18, 19, 19],
+               [20,  0, 21,  0, 22,  0, 23,  0, 24,  0],
+               [20, 20, 21, 21, 22, 22, 23, 23, 24, 24]])
+
+
+    g[ ::2,1::2] = a
+
+        # so we have...
+
+        array([[ 0,  0,  1,  1,  2,  2,  3,  3,  4,  4],
+               [ 0,  0,  1,  1,  2,  2,  3,  3,  4,  4],
+               [ 5,  5,  6,  6,  7,  7,  8,  8,  9,  9],
+               [ 5,  5,  6,  6,  7,  7,  8,  8,  9,  9],
+               [10, 10, 11, 11, 12, 12, 13, 13, 14, 14],
+               [10, 10, 11, 11, 12, 12, 13, 13, 14, 14],
+               [15, 15, 16, 16, 17, 17, 18, 18, 19, 19],
+               [15, 15, 16, 16, 17, 17, 18, 18, 19, 19],
+               [20, 20, 21, 21, 22, 22, 23, 23, 24, 24],
+               [20, 20, 21, 21, 22, 22, 23, 23, 24, 24]])
+
+```
+
+
