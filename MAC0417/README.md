@@ -1,5 +1,7 @@
 # ndarray
 
+course: **pirp_5e PIRP Python/Numpy**
+
 Array with n-dimensions, indexed by a tuple with n integers.
 
 * dtype - data type
@@ -147,41 +149,71 @@ a[1:15:2], 1st arg = starting number, 2nd arg = end number, 3rd arg = 1st + 3rd 
 
         a = np.arange(20) # [ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
         a[1:15:2]
-    
         > [ 1  3  5  7  9 11 13]
     
         a[1:-1:2] # fatiamento termina antes do ultimo elemento 
-    
         > [ 1  3  5  7  9 11 13 15 17]
     
         a[-3:2:-1]
-    
         > [17 16 15 14 13 12 11 10  9  8  7  6  5  4  3] # a[-3] = 17, until last print ( x > a[2] = 2 ), do i - 1
 
 
 * fatiamento avancado
 
         a[:15:2] # starting from 0
-    
         > [ 0  2  4  6  8 10 12 14]    
     
         a[1::2] # until the last element
-    
         > [ 1  3  5  7  9 11 13 15 17 19]
     
         a[1:15] # step is + 1
-    
         > [ 1  2  3  4  5  6  7  8  9 10 11 12 13 14]
     
         a[:] # from start to end, step + 1
-    
         > [ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19]
 
 * reshaping
 
+a.reshape(row, column):
+
         a = [0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19]
+
         a.reshape(4,5) = 
         [[ 0  1  2  3  4]
         [ 5  6  7  8  9]
         [10 11 12 13 14]
         [15 16 17 18 19]]
+
+* fatiamento 2D:
+
+        a[1,:]  # 2nd row
+        a[:,0]  # 1st column
+
+        a[0::2,:] # access row 2 by 2, starting from row 0
+        > [[ 0  1  2  3  4]
+           [10 11 12 13 14]]
+
+        a[0::2,1::2] # access row and column 2 by 2, starting from row 0, column 1
+        > [[ 1  3]
+           [11 13]]
+
+        a[a::r, b::c] # from line a, jump lines by r, and from column b, jump column by c
+
+        a[2::1, 3::1]
+        > [[13, 14],
+           [18, 19]]
+
+        a[-1:-3:-1,:]
+        > [[15 16 17 18 19]
+           [10 11 12 13 14]]
+
+        a[::-1,:]
+        > [[15 16 17 18 19]
+           [10 11 12 13 14]
+           [ 5  6  7  8  9]
+           [ 0  1  2  3  4]]
+
+### Inside "Fatiamento no ndarray bidimensional":
+
+* [Processamento de imagens usando fatiamento do Numpy](http://adessowiki.fee.unicamp.br/adesso-1/wiki/master/tutorial_1_imagens/view/)
+* [iaprofiledemo - Extraction and plotting of a vertical profile of an image](http://adessowiki.fee.unicamp.br/adesso-1/wiki/ia636/iaprofiledemo/view/)
