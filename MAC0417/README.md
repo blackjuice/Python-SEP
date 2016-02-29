@@ -149,7 +149,7 @@ a[1:15:2], 1st arg = starting number, 2nd arg = end number, 3rd arg = 1st + 3rd 
     a[1:15:2]
 
     > [ 1  3  5  7  9 11 13]
-    
+
     a[1:-1:2] # fatiamento termina antes do ultimo elemento 
 
     > [ 1  3  5  7  9 11 13 15 17]
@@ -174,15 +174,14 @@ a[1:15:2], 1st arg = starting number, 2nd arg = end number, 3rd arg = 1st + 3rd 
     > [ 1  2  3  4  5  6  7  8  9 10 11 12 13 14]
 
     a[:] # from start to end, step + 1
-    
+
     > [ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19]
 
 * reshaping
 
     a = [0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19]
-
     a.reshape(4,5) = 
     [[ 0  1  2  3  4]
-     [ 5  6  7  8  9]
-     [10 11 12 13 14]
-     [15 16 17 18 19]]
+    [ 5  6  7  8  9]
+    [10 11 12 13 14]
+    [15 16 17 18 19]]
