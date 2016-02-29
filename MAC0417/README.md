@@ -1,5 +1,4 @@
-ndarray
-=======
+# ndarray
 
 Array with n-dimensions, indexed by a tuple with n integers.
 
@@ -25,15 +24,13 @@ example:
     > ultimo elemento da tupla shape indica: numero de colunas (shape[-2])
     > penultimo, a linha (shape[-1]) ou (shape[0])
 
- Initialize
- ==========
+### Initialize
 
     d = np.zeros( (2,4) )                    # matrix com 2 rows e 4 columns, contendo 0s
     d = np.ones( (3,2,5), dtype='int16' )    # contem 1s
     d = np.empty( (2,3), 'bool' )            # contem False
 
- vetores sequencias
- ------------------
+### vetores sequencias
 
     np.arange( 10) =  [0 1 2 3 4 5 6 7 8 9]
     np.arange( 3, 8) =  [3 4 5 6 7]
@@ -43,14 +40,13 @@ example:
 
 | dtype | valores |
 |:-----:|:-------:|
-| bool  | True, False                       |
-| uint8 |8 bits sem sinal, de 0 a 255         |
-| uint16 | 16 bits sem sinal, de 0 a 65535     |
-| int     | 64 bits com sinal             |
-| float    | ponto flutuante            |
+| bool  | True, False                           |
+| uint8 |8 bits sem sinal, de 0 a 255           |
+| uint16 | 16 bits sem sinal, de 0 a 65535      |
+| int     | 64 bits com sinal                   |
+| float    | ponto flutuante                    |
 
- Read image
- ==========
+### Read image
 
     f = adreadgray('cookies.tif')
     f.shape = (174, 314)
@@ -66,8 +62,9 @@ example:
      [32 24 32 ..., 32 24 41]]
 
 * notation
- 0   -> black
- 255 -> white
+
+    0   -> black
+    255 -> white
 
 * show image: adshow(f,'Imagem cookies.tif')
 
@@ -114,6 +111,7 @@ example:
     adshow(f, legenda)
 
 * Function iaimginfo
+ 
  Print image size and pixel data type information
  iaimginfo gives a string with the image size and pixel data type. The string also gives the minimum and maximum values of the image.
 
@@ -140,17 +138,14 @@ example:
     > f_bin: <type 'numpy.ndarray'> (174, 314) bool False True
     > f_cor: <type 'numpy.ndarray'> (3, 257, 256) uint8 0 218
 
-
-
 * crop interest area from image
 
     f= adreadgray('cookies.tif')
     g = f[:7,:10]
 
-
 * fatiamento
 
- a[1:15:2], 1st arg = starting number, 2nd arg = end number, 3rd arg = 1st + 3rd arg
+a[1:15:2], 1st arg = starting number, 2nd arg = end number, 3rd arg = 1st + 3rd arg
 
     a = np.arange(20) # [ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
     a[1:15:2]
