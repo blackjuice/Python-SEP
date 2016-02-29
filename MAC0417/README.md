@@ -112,8 +112,7 @@ example:
 
 * Function iaimginfo
  
- Print image size and pixel data type information
- iaimginfo gives a string with the image size and pixel data type. The string also gives the minimum and maximum values of the image.
+Print image size and pixel data type information. **iaimginfo** gives a string with the image size and pixel data type. The string also gives the minimum and maximum values of the image.
 
     from ia636 import iaimginfo
 
@@ -127,7 +126,6 @@ example:
     > a: <type 'numpy.ndarray'> (3, 256, 256) uint8 0 255
     > a_bin: <type 'numpy.ndarray'> (3, 256, 256) bool False True
     > a_f: <type 'numpy.ndarray'> (3, 256, 256) float64 0.000000 892.500000
-
 
     import ia636
     print 'f:    ', ia636.iaimginfo(f)
@@ -179,7 +177,7 @@ a[1:15:2], 1st arg = starting number, 2nd arg = end number, 3rd arg = 1st + 3rd 
     
     > [ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19]
 
-# reshaping
+* reshaping
 
     a = [0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19]
 
