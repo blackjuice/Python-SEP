@@ -326,4 +326,145 @@ a.reshape(row, column):
 
 ```
 
+* Sem Copia: 'a' is a np array. Doing b = a makes 'b' to share the same memory from 'a'. Modifying the 'b' content modifies also 'a'. To check that: `np.may_share_memory(a,b)`
+
+* Copia rasa: most used method.
+  * Reshape:
+
+```python
+
+a = np.arange(30)
+b = a.reshape( (5, 6))
+b[:, 0] = -1               # this line modifies 'a' and 'b' contents
+
+c = a.reshape( (2, 3, 5) ) # we are having 2 matrices (3,5)
+
+'c.base is a:',c.base is a # gives us TRUE
+print 'np.may_share_memory(a,c):',np.may_share_memory(a,c) # gives us TRUE
+
+```
+
+  * Slice:
+
+```python
+
+import ia636 as ia
+
+a = np.zeros( (5, 6))
+b = a[::2,::2]        # **note: 'b' receives the even indexes from 'a', becoming (3,3)
+
+b[:,:] = 1            # inserting 1 in all positions
+print 'b.base is a:',b.base is a      # True
+print 'np.may_share_memory(a,b):',np.may_share_memory(a,b)  # True
+
+# other process
+
+a = np.arange(25).reshape((5,5))
+b = a[:,0]   # 'b' receives 1st column from 'a'
+
+b[:] = np.arange(5) # **note: we can't do "b = np.arrange(5), otherwise, a new variable is created"
+
+```
+
+  * Transposto:
+
+```python
+
+a = np.arange(24).reshape((4,6))
+at = a.T
+
+print 'np.may_share_memory(a,at):',np.may_share_memory(a,at)    # True, so modiying 'at' modifies 'a' too
+
+
+# this produces:
+
+a:
+[[ 0  1  2  3  4  5]
+ [ 6  7  8  9 10 11]
+ [12 13 14 15 16 17]
+ [18 19 20 21 22 23]]
+at:
+[[ 0  6 12 18]
+ [ 1  7 13 19]
+ [ 2  8 14 20]
+ [ 3  9 15 21]
+ [ 4 10 16 22]
+ [ 5 11 17 23]]
+
+```
+
+  * Ravel:
+
+```python
+
+a = np.arange(24).reshape((4,6))
+av = a.ravel()      # linear view of 'a'
+
+print 'np.may_share_memory(a,av):',np.may_share_memory(a,av) # True
+
+# produces:
+
+a:
+[[ 0  1  2  3  4  5]
+ [ 6  7  8  9 10 11]
+ [12 13 14 15 16 17]
+ [18 19 20 21 22 23]]
+av.shape: (24,)
+av:
+[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23]
+
+```
+
+* Copia profunda: produces different memories locations. Verifying ids such as `id(a)` will do the job. There are 2 ways to copy: through `copy` and `nparray( , copy=True)`:
+
+```python
+
+b = a.copy()  # 1st method
+c = np.array(a, copy=True) # 2nd method
+
+```
+
+## Operacoes matriciais
+
+```python
+
+import numpy as np
+
+a = np.arange(20).reshape(5,4)
+b = 2 * np.ones((5,4))                # fill with 1s
+c = np.arange(12,0,-1).reshape(4,3)   # from 12 to 0, increment -1, and reshape it
+
+a=
+[[ 0  1  2  3]
+ [ 4  5  6  7]
+ [ 8  9 10 11]
+ [12 13 14 15]
+ [16 17 18 19]]
+b=
+[[ 2.  2.  2.  2.]
+ [ 2.  2.  2.  2.]
+ [ 2.  2.  2.  2.]
+ [ 2.  2.  2.  2.]
+ [ 2.  2.  2.  2.]]
+c=
+[[12 11 10]
+ [ 9  8  7]
+ [ 6  5  4]
+ [ 3  2  1]]
+
+# multiplicacao
+b5 = 5 * b # will multiplies every element from 'b' with 5
+# soma
+amb = a + b
+# multiplicacao entre matrizes: dot()
+ac = a.dot(c) # condition: columns from 'a' == rows from 'c'
+
+
+
+```
+
+
+
+
+
 
