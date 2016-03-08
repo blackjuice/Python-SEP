@@ -464,7 +464,51 @@ ac = a.dot(c) # condition: columns from 'a' == rows from 'c'
 ```
 
 
+## Quiz
 
+### Função de geração de imagem com quadrados cinzas
 
+```python
+
+# Minha solução
+
+ 1 def qc( isImg):
+ 2     """ Gera imagem com quadrados cinzas
+ 3     isImg: se verdadeiro, retorna imagem 300 x 600
+ 4            se falso, retorna imagem 6 x 12
+ 5     """
+ 6     import numpy as np
+ 7     H,W = 300,600
+ 8     if not isImg:
+ 9         H = H/50
+10         W = W/50
+11     # edite aqui
+12     f = np.zeros((H,W))
+13 
+14     f[:,:W/2] = 64
+15     f[:,W/2:] = 192
+16     f[H/3:2*H/3, W/6:W/3] = 128
+17     f[H/3:2*H/3, 2*W/3:5*W/6] = 128
+18 
+19     return f
+
+# Solução mais eficiente
+
+01. def qc_slice( isImg ):
+02.     import numpy as np
+03.     H,W = 300,600
+04.     if not isImg:
+05.         H /= 50
+06.         W /= 50
+07.     f = np.empty((H,W), "uint8")
+08.     f[:,:W/2] = 64
+09.     f[:,W/2:] = 192
+10.     f[H/3:2*H/3,W/6:2*W/6] = 128
+11.     f[H/3:2*H/3,2*W/3:5*W/6] = 128
+12.     return f
+
+```
+
+So... Yeah! **Success**!
 
 
