@@ -494,18 +494,18 @@ ac = a.dot(c) # condition: columns from 'a' == rows from 'c'
 
 # Solução mais eficiente
 
-01 def qc_slice( isImg ):
-02     import numpy as np
-03     H,W = 300,600
-04     if not isImg:
-05         H /= 50
-06         W /= 50
-07     f = np.empty((H,W), "uint8")
-08     f[:,:W/2] = 64
-09     f[:,W/2:] = 192
-10     f[H/3:2*H/3,W/6:2*W/6] = 128
-11     f[H/3:2*H/3,2*W/3:5*W/6] = 128
-12     return f
+01. def qc_slice( isImg ):
+02.     import numpy as np
+03.     H,W = 300,600
+04.     if not isImg:
+05.         H /= 50
+06.         W /= 50
+07.     f = np.empty((H,W), "uint8")
+08.     f[:,:W/2] = 64
+09.     f[:,W/2:] = 192
+10.     f[H/3:2*H/3,W/6:2*W/6] = 128
+11.     f[H/3:2*H/3,2*W/3:5*W/6] = 128
+12.     return f
 
 ```
 
