@@ -494,21 +494,169 @@ ac = a.dot(c) # condition: columns from 'a' == rows from 'c'
 
 # Solução mais eficiente
 
-01. def qc_slice( isImg ):
-02.     import numpy as np
-03.     H,W = 300,600
-04.     if not isImg:
-05.         H /= 50
-06.         W /= 50
-07.     f = np.empty((H,W), "uint8")
-08.     f[:,:W/2] = 64
-09.     f[:,W/2:] = 192
-10.     f[H/3:2*H/3,W/6:2*W/6] = 128
-11.     f[H/3:2*H/3,2*W/3:5*W/6] = 128
-12.     return f
+1 def qc_slice( isImg ):
+2     import numpy as np
+3     H,W = 300,600
+4     if not isImg:
+5         H /= 50
+6         W /= 50
+7     f = np.empty((H,W), "uint8")
+8     f[:,:W/2] = 64
+9     f[:,W/2:] = 192
+10     f[H/3:2*H/3,W/6:2*W/6] = 128
+11     f[H/3:2*H/3,2*W/3:5*W/6] = 128
+12     return f
 
 ```
 
 So... Yeah! **Success**!
 
 
+# Module 2
+## [Numpy: Funções indices e meshgrid](http://adessowiki.fee.unicamp.br/adesso-1/wiki/master/tutorial_numpy_1_7/view/)
+
+
+# Module 3
+
+* Equalização de histograma
+
+```python
+
+    import numpy as np
+    import ia636 as ia
+
+    f = adreadgray('cameraman.tif')
+    adshow(f,'Imagem original')
+    fsort = np.sort(f.ravel()).reshape(f.shape)
+    adshow(fsort, 'Imagem pixels ordenados')
+
+    h = ia.iahistogram(f)
+    adshow(ia.iaplot([h]), 'Histograma de f')
+    n = f.size
+    T = 255./n * np.cumsum(h)
+    T = T.astype(uint8)
+    adshow(ia.iaplot(T), 'Transformação de intensidade para equalizar')
+
+    g = T[f]
+    print 'info:', ia.iaimginfo(g)
+    adshow(g, 'imagem equalizada')
+
+    gsort = np.sort(g.ravel()).reshape(g.shape)
+    adshow(gsort, 'imagem equalizada ordenada')
+
+    # plotando
+    hg = ia.iahistogram(g)
+    adshow(ia.iaplot(hg), 'Histograma da imagem equalizada')
+    hgc = np.cumsum(hg)
+    adshow(ia.iaplot(hgc), 'Histograma acumulado da imagem equalizada')
+
+    # normalizando
+    gn = ia.ianormalize(g)
+    print 'info:',ia.iaimginfo(gn)
+    adshow(gn, 'imagem equalizada e normalizada')
+    hgn = ia.iahistogram(gn)
+    adshow(ia.iaplot(hgn),'histograma')
+
+```
+
+* Eq. distr. uniforme (mosaico)
+
+```python
+
+    f = np.array([1, 7, 3, 0, 2, 2, 4, 3, 2, 0, 5, 3, 7, 7, 7, 5])
+    h = ia.iahistogram(f)
+    fsi = np.argsort(f)
+    fs = f[fsi]
+    print 'imagem original      f  :',f
+    print 'indices para ordenar fsi:',fsi
+    print 'f c/pixels ordenados fs :',fs
+    print 'histogram h:          h :',h
+
+    gs = np.linspace(0,7,f.size).round(0).astype(np.int)
+    print 'ladrilhos ordenados, gs :', gs
+    print 'ladrilhos disponíveis                gs:',gs
+    print 'endereço para colocar cada ladrilho fsi:',fsi
+
+    g = np.empty( (f.size,), np.uint8)
+    g[fsi] = gs
+    print 'mosaico montado             g[fsi] = gs:',g
+
+    #ladrilhos disponíveis                gs: [0 0 1 1 2 2 3 3 4 4 5 5 6 6 7 7]
+    #endereço para colocar cada ladrilho fsi: [ 3  9  0  4  5  8  2  7 11  6 10 15  1 12 13 14]
+    #mosaico montado             g[fsi] = gs: [1 6 3 0 1 2 4 3 2 0 5 4 6 7 7 5]
+
+    print 'histograma de g:', ia.iahistogram(g)
+    #histograma de g: [2 2 2 2 2 2 2 2]
+
+```
+
+* Eq. caso discreto
+
+```python
+
+    import numpy as np
+    import ia636 as ia
+    
+    hout = np.concatenate((arange(128),arange(128,0,-1)))
+    adshow(ia.iaplot(hout), 'Distribuição desejada do histograma')
+    print hout
+
+    f = adreadgray('cameraman.tif')
+    adshow(f, 'imagem de entrada')
+    adshow(ia.iaplot([ia.iahistogram(f)]),'histograma original')
+
+    # normalize para que valor acumulado final seja = n (numero de pixel) da imagem de entrada
+    # e fazer diferenca discreta
+    n = f.size
+    hcc = np.cumsum(hout)
+    hcc1 = ia.ianormalize(hcc,[0,n])
+    h1 = np.diff(np.concatenate(([0],hcc1)))
+
+    adshow(ia.iaplot([hcc1]), 'histograma acumulado desejado')
+    adshow(ia.iaplot([h1]), 'histograma desejado')
+
+    # repeat
+    gs = np.repeat(np.arange(256),h1).astype(uint8)
+    adshow(ia.iaplot([gs]), 'pixels desejados, ordenados')
+    adshow(ia.iaplot([np.sort(f.ravel())]), 'pixels ordenados da imagem original')    # ravel: deixa como uma linha
+
+    # mapeamento
+    g = np.empty( (n,), np.uint8)
+    si = np.argsort(f.ravel()) # sort normal
+    
+    g[si] = gs
+    g.shape = f.shape
+    
+    adshow(g, 'imagem modificada')
+    h = ia.iahistogram(g)
+    adshow(ia.iaplot([h]), 'histograma da imagem modificada')
+
+```
+
+* Inserção de rampa
+
+```python
+
+    import numpy as np
+    import ia636 as ia
+
+    g = (np.resize(( np.arange(0,256,2) ), (20, 128))).T
+    g[:,0] = 255
+    g[:,-1] = 255
+
+    f = adreadgray('cameraman.tif')
+    adshow(f, 'imagem de entrada')
+
+    H = g.shape[0]
+    W = f.shape[1]
+
+    f[20:H + 20, (w-40):W + (w-40)] = g
+    adshow(f)
+```
+
+```python
+
+    a = np.array([[10, 7, 4], [3, 2, 1]])
+    print np.percentile(a, 50)
+    
+```
